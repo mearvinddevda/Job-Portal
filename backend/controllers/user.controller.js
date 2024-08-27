@@ -69,10 +69,10 @@ export const login = async (req, res) => {
     const tokenData = {
       userId: user._id
     };
-    const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+    const token = await jwt.sign(tokenData , process.env.SECRET_KEY, {
+      expiresIn: "1d"
     });
-
+    // console.log(token)
     user = {
       id: user._id,
       fullname: user.fullname,
@@ -84,7 +84,7 @@ export const login = async (req, res) => {
 
     return res
       .status(200)
-      .cookie("token", {
+      .cookie("token",token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpsOnly: true,
         sameSite: "strict",
@@ -114,12 +114,12 @@ export const updateProfile = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
     const file = req.file;
-    if (!fullname || !email || !phoneNumber || !bio || !skills) {
-      return res.status(400).json({
-        message: "Something is Missing",
-        success: false,
-      });
-    }
+    // if (!fullname || !email || !phoneNumber || !bio || !skills) {
+    //   return res.status(400).json({
+    //     message: "Something is Missing",
+    //     success: false,
+    //   });
+    // }
     //cloudinary portion
     let skillsArray ;
     if(skills)
@@ -141,7 +141,7 @@ export const updateProfile = async (req, res) => {
     if(email) user.email = email
     if(phoneNumber) user.phoneNumber = phoneNumber
     if(bio) user.profile.bio = bio
-    if(skiils) user.profile.skills = skillsArray
+    if(skills) user.profile.skills = skillsArray
       
 
     //resume section
