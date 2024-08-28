@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const jobSchema = new mongoose.schema({
+const jobSchema = new mongoose.Schema({
     title:{
         type:String,
         required:true
@@ -9,10 +9,14 @@ const jobSchema = new mongoose.schema({
         type:String,
         required:true
     },
-    requirements:{
+    requirements:[{
         type:String
-    },
+    }],
     salary:{
+        type:Number,
+        required:true
+    },
+    experienceLevel:{
         type:Number,
         required:true
     },
