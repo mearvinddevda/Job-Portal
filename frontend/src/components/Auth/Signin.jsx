@@ -4,7 +4,10 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { toast } from "sonner";
 const Signin = () => {
   const [input, setInput] = useState({
     fullname: "",
@@ -15,22 +18,43 @@ const Signin = () => {
     file: "",
   });
 
+  const navigate =useNavigate();
+
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const changeFileHandler  = (e) => {
+  const changeFileHandler = (e) => {
     setInput({ ...input, file: e.target.files?.[0] });
   };
 
-  const submitHandler= async (e)=>{
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullname", input.fullname);
+    formData.append("email", input.email);
+    formData.append("phoneNumber", input.phoneNumber);
+    formData.append("pasword", input.password);
+    formData.append("role", input.role);
+    if (input.file) {
+      formData.append("file",input.file);
+    } 
     try {
-        e.preventDefault();
-        console.log(input);
+      const res = axios.post(`${USER_API_END_POINT}/register` , formData,{
+        header:{
+          "Content-Type":"multipart/form-data"
+        },
+      withCredentials:true,
+      });
+      if(res.data.message){
+        navigate.apply("/login")
+        toast.success(res.data.message)
+      }
     } catch (error) {
-        console.log(error);
+      console.log(error);
+      toast.error(error.response.data.message);
     }
-  }
+  };
   return (
     <div>
       <Navbar />
@@ -87,7 +111,7 @@ const Signin = () => {
                   type="radio"
                   name="role"
                   value="Student"
-                  checked={input.role==="Student"}
+                  checked={input.role === "Student"}
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
@@ -98,7 +122,7 @@ const Signin = () => {
                   type="radio"
                   name="role"
                   value="Recuritor"
-                  checked={input.role==="Recuritor"}
+                  checked={input.role === "Recuritor"}
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
@@ -107,9 +131,12 @@ const Signin = () => {
             </RadioGroup>
             <div className="flex items-center gap-2">
               <Label>Profile</Label>
-              <Input accept="image/*" 
-              onChange={changeFileHandler}
-              type="file" className="cursor-pointer" />
+              <Input
+                accept="image/*"
+                onChange={changeFileHandler}
+                type="file"
+                className="cursor-pointer"
+              />
             </div>
           </div>
           <Button type="submit" className="w-full my-4 ">

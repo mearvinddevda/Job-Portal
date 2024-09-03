@@ -6,27 +6,39 @@ import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 const Login = () => {
-    const [input , setInput] = useState({
-        email:"",
-        password:"",
-        role:"",
-    })
+  const [input, setInput] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
 
-    const changeEventHandler =(e)=>{
-        setInput({...input , [e.target.name]:e.target.value})
-    };
+  const changeEventHandler = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
 
-    const changeFileHandler =(e)=>{
-        setInput({...input , file:e.target.files?.[0]});
-    }
-    const submitHandler= async (e)=>{
-      try {
-          e.preventDefault();
-          console.log(input);
-      } catch (error) {
-          console.log(error);
+  const changeFileHandler = (e) => {
+    setInput({ ...input, file: e.target.files?.[0] });
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = axios.post(`${USER_API_END_POINT}/login`, input, {
+        header: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.message) {
+        navigate("/");
+        toast.success(res.data.message);
       }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+ 
     }
+  };
   return (
     <div>
       <Navbar />
@@ -36,23 +48,27 @@ const Login = () => {
           className="w-1/2 border border-gray-200 rounded-md p-4 my-10"
         >
           <h1 className="font-bold text-xl mb-5">Login</h1>
-          
+
           <div className="my-2">
             <Label>Email</Label>
-            <Input name="email"
+            <Input
+              name="email"
               type="email"
               value={input.email}
               onChange={changeEventHandler}
-              placeholder="Arvind@gmail.com" />
+              placeholder="Arvind@gmail.com"
+            />
           </div>
-          
+
           <div className="my-2">
             <Label>Password</Label>
-            <Input name="password"
+            <Input
+              name="password"
               type="password"
               value={input.password}
               onChange={changeEventHandler}
-              placeholder="Arvind@123" />
+              placeholder="Arvind@123"
+            />
           </div>
           <div className="flex items-center justify-between">
             <RadioGroup className="flex items-center gap-4 my-5">
@@ -61,7 +77,7 @@ const Login = () => {
                   type="radio"
                   name="role"
                   value="Student"
-                  checked={input.role==="Student"}
+                  checked={input.role === "Student"}
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
@@ -72,17 +88,23 @@ const Login = () => {
                   type="radio"
                   name="role"
                   value="Recuritor"
-                  checked={input.role==="Recuritor"}
+                  checked={input.role === "Recuritor"}
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
                 <Label htmlFor="r3">Recuritor</Label>
               </div>
             </RadioGroup>
-            
           </div>
-          <Button type="submit" className="w-full my-4 " >login</Button>
-            <span>Don't have an Account? <Link to="/login" className="text-blue-600" >SignUp</Link></span>
+          <Button type="submit" className="w-full my-4 ">
+            login
+          </Button>
+          <span>
+            Don't have an Account?{" "}
+            <Link to="/login" className="text-blue-600">
+              SignUp
+            </Link>
+          </span>
         </form>
       </div>
     </div>
