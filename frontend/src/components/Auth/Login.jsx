@@ -4,14 +4,18 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
+
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
   });
-
+  const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -23,19 +27,20 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = axios.post(`${USER_API_END_POINT}/login`, input, {
-        header: {
+      const res =await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       });
+      console.log(res);
+      toast.success(res.data.message);
       if (res.data.message) {
         navigate("/");
-        toast.success(res.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.message);
  
     }
   };

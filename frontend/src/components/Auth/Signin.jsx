@@ -18,7 +18,7 @@ const Signin = () => {
     file: "",
   });
 
-  const navigate =useNavigate();
+  const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -34,25 +34,30 @@ const Signin = () => {
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);
     formData.append("phoneNumber", input.phoneNumber);
-    formData.append("pasword", input.password);
+    formData.append("password", input.password);
     formData.append("role", input.role);
     if (input.file) {
-      formData.append("file",input.file);
-    } 
+      formData.append("file", input.file);
+    }
     try {
-      const res = axios.post(`${USER_API_END_POINT}/register` , formData,{
-        header:{
-          "Content-Type":"multipart/form-data"
+      const res =await axios.post(`${USER_API_END_POINT}/register`, formData, {
+        headers: {
+          'Content-Type': "multipart/form-data",
         },
-      withCredentials:true,
+        withCredentials: true,
       });
-      if(res.data.message){
-        navigate.apply("/login")
-        toast.success(res.data.message)
+      console.log(res);
+      if (res.data.success) {
+        navigate("/login");
+        toast.success(res.data.message);
+        console.log(res.data.message);
+        
       }
+      // console.log(input);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
+      toast.error(error.message);
     }
   };
   return (
