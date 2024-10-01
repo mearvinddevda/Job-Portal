@@ -1,10 +1,19 @@
 import React from 'react'
 import Navbar from './ui/shared/Navbar'
+import HeroSection from './HeroSection'
+import CategoryCarousel from './CategoryCarousel'
+import LatestJobs from './LatestJobs'
+import Footer from './ui/shared/Footer'
 
 const Home = () => {
+  // 6:23
   return (
     <div>
       <Navbar/>
+      <HeroSection/>
+      <CategoryCarousel/>
+      <LatestJobs />
+      <Footer/>
     </div>
   )
 }
