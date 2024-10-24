@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./ui/shared/Navbar";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -7,11 +7,13 @@ import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import { Link } from "react-router-dom";
 import AppliedJobTable from "./AppliedJobTable";
+import UpdateProfileDialog from "./UpdateProfileDialog";
 
 const skills = ["HTML5", "CSS3", "JavaScript"];
-
+const isHaveResume = true;
 const Profile = () => {
-	const isHaveResume = true;
+	const [open ,setOpen] = useState(false);
+
 	return (
 		<div>
 			<Navbar />
@@ -31,6 +33,7 @@ const Profile = () => {
 					</div>
 
 					<Button
+						onClick={()=>setOpen(true)}
 						className="text-right"
 						variant="outline"
 					>
@@ -78,6 +81,7 @@ const Profile = () => {
 				<h1 className="font-bold text-lg my-5">Applied Jobs</h1>
 				<AppliedJobTable />
 			</div>
+			<UpdateProfileDialog open={open} setOpen={setOpen}/>
 		</div>
 	);
 };

@@ -26,26 +26,22 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     profile: {
-      bio: {
-        type: String,
-        skills: [{ type: String }],
-        resume: {
+      bio: {type: String},
+      skills: [{ type: String }],
+      resume: { type: String,},
+      resumeOriginalName: {
           type: String,
         },
-        resumeOriginalName: {
-          type: String,
-        },
-        company: {
+      company: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Company",
         },
         profilePhoto: {
           type: String,
-          default: "",
+          default: ""
         },
       },
     },
-  },
   { timestamps: true }
 );
 

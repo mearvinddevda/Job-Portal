@@ -6,7 +6,7 @@ import LatestJobs from './LatestJobs'
 import Footer from './ui/shared/Footer'
 
 const Home = () => {
-  // 6:23
+  // 7:08
   return (
     <div>
       <Navbar/>
