@@ -8,12 +8,12 @@ import { Label } from "./ui/label";
 import { Link } from "react-router-dom";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
+import { useSelector } from "react-redux";
 
-const skills = ["HTML5", "CSS3", "JavaScript"];
 const isHaveResume = true;
 const Profile = () => {
 	const [open ,setOpen] = useState(false);
-
+	const {user} = useSelector(store=>store.auth);
 	return (
 		<div>
 			<Navbar />
@@ -27,8 +27,8 @@ const Profile = () => {
 							/>
 						</Avatar>
 						<div className="">
-							<h1 className="font-medium text-xl">Full Name</h1>
-							<p>Lorem ipsum dolor sit amet.</p>
+							<h1 className="font-medium text-xl">{user?.fullname}</h1>
+							<p>{user?.profile?.bio}</p>
 						</div>
 					</div>
 
@@ -43,18 +43,18 @@ const Profile = () => {
 				<div className="my-5">
 					<div className="flex items-center gap-3 my-2">
 						<Mail />
-						<span>arvind@gmail.com</span>
+						<span>{user?.email}</span>
 					</div>
 					<div className="flex items-center gap-3 my-2">
 						<Contact />
-						<span>8269072934</span>
+						<span>{user?.phoneNumber}</span>
 					</div>
 				</div>
 				<div className="my-5">
 					<h1>Skills</h1>
 					<div className="flex items-center gap-3 my-2">
-						{skills.length != 0 ? (
-							skills.map((item, idx) => (
+						{user?.profile?.skills.length != 0 ? (
+							user?.profile?.skills.map((item, idx) => (
 								<Badge key={idx}>{item}</Badge>
 							))
 						) : (
@@ -70,7 +70,7 @@ const Profile = () => {
 							target="blank"
 							href="https://www.linkedin.com/in/mearvinddevda/"
 						>
-							Arvind Resume
+							{user?.profile?.resumeOriginalName}
 						</a>
 					) : (
 						<span>NA</span>
