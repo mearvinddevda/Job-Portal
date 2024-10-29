@@ -68,7 +68,7 @@ const Profile = () => {
 						<a
 							className="text-blue-500 hover:underline cursor-pointer"
 							target="blank"
-							href="https://www.linkedin.com/in/mearvinddevda/"
+							href={user?.profile?.resume}
 						>
 							{user?.profile?.resumeOriginalName}
 						</a>

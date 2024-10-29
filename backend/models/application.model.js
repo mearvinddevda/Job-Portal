@@ -19,7 +19,7 @@ const applicationSchema = new mongoose.Schema({
     }
 
 },{
-    timeStamps:true
+    timestamps:true
 });
 
 export const Application = mongoose.model("Application",applicationSchema)
