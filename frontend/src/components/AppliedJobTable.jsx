@@ -9,8 +9,10 @@ import {
 	TableRow,
 } from "./ui/table";
 import { Badge } from "./ui/badge";
+import { useSelector } from "react-redux";
 
 const AppliedJobTable = () => {
+	const {allAppliedJobs} = useSelector(store => store.job)
 	return (
 		<div>
 			<Table>
@@ -24,17 +26,19 @@ const AppliedJobTable = () => {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{[1, 2].map((item, idx) => (
-						<TableRow key={idx}>
-							<TableCell> 01-01-2024</TableCell>
-							<TableCell> FrontEnd Developer</TableCell>
-							<TableCell>Google</TableCell>
+					{
+						allAppliedJobs.length <=0 ?<span>You haven't applied any job yet</span> :
+					(allAppliedJobs.map((item, idx) => (
+						<TableRow key={allAppliedJobs._id}>
+							<TableCell> {allAppliedJobs.createdAt.split("T")[0]}</TableCell>
+							<TableCell> {allAppliedJobs.job.title}</TableCell>
+							<TableCell>{allAppliedJobs.job.company.name}</TableCell>
 							<TableCell className="text-right">
 								{" "}
-								<Badge>Selected</Badge>
+								<Badge className={`${appliedJob?.status === "rejected" ? 'bg-red-400' : appliedJob.status === 'pending' ? 'bg-gray-400' : 'bg-green-400'}`}>{allAppliedJobs.status} </Badge>
 							</TableCell>
 						</TableRow>
-					))}
+					)))}
 				</TableBody>
 			</Table>
 		</div>

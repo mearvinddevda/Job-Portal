@@ -47,10 +47,10 @@ function Navbar() {
 						{user?.role === "Recuritor" ? (
 							<>
 								<li>
-									<Link to="/companies">Companies</Link>
+									<Link to="/admin/companies">Companies</Link>
 								</li>
 								<li>
-									<Link to="/jobs">jobs</Link>
+									<Link to="/admin/jobs">jobs</Link>
 								</li>
 							</>
 						) : (
@@ -131,14 +131,14 @@ function Navbar() {
 									) : (
 										<></>
 									)}
-									<div className="flex w-fit items-center gap-2 cursor-pointer">
+									{/* <div className="flex w-fit items-center gap-2 cursor-pointer">
 										<User2 />
 										<Button variant="link">
 											<Link to="/profile">
 												View Profile
 											</Link>
 										</Button>
-									</div>
+									</div> */}
 									<div className="flex w-fit items-center gap-2 cursor-pointer">
 										<LogOut />
 										<Button

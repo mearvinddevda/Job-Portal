@@ -47,8 +47,8 @@ const CompaniesTable = () => {
 				</TableCaption>
 				<TableHeader>
 					<TableRow>
-						<TableHead>Company Name</TableHead>
-						<TableHead>Role</TableHead>
+						<TableHead>Logo</TableHead>
+						<TableHead>Company</TableHead>
 						<TableHead>Date</TableHead>
 						<TableHead className="text-right">Action</TableHead>
 					</TableRow>
@@ -56,7 +56,11 @@ const CompaniesTable = () => {
 				<TableBody>
 					{filterCompany.map((company) => (
 						<tr key={company._id}>
-							
+							<TableCell>
+                                    <Avatar>
+                                        <AvatarImage src={company.logo}/>
+                                    </Avatar>
+                                </TableCell>
 							<TableCell>{company.name}</TableCell>
 							<TableCell>
 								{company.createdAt.split("T")[0]}{" "}
